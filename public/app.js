@@ -5,6 +5,7 @@ const ipfs = new IPFS({
     port : 5001,
     protocol : 'https'
 });
+const buffer = require('buffer');
 
 ipfs.id().then(function (id) {
     console.log(id);
@@ -12,7 +13,15 @@ ipfs.id().then(function (id) {
     console.log("Fail", err);
 });
 
-},{"ipfs-api":175}],2:[function(require,module,exports){
+window.addFile = function (reader_result, callback){
+    let buf = buffer.Buffer(reader_result);
+    ipfs.files.add(buf, function (err, hash) {
+        if(err) throw err;
+        if(callback) callback(hash);
+    })
+};
+
+},{"buffer":82,"ipfs-api":175}],2:[function(require,module,exports){
 'use strict';
 
 const asn1 = exports;

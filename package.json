@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "browserify": "^16.2.2",
+    "buffer": "^5.1.0",
     "ipfs-api": "^22.2.3"
   }
 }

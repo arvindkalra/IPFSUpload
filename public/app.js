@@ -17,7 +17,7 @@ window.addFile = function (reader_result, callback){
     let buf = buffer.Buffer(reader_result);
     ipfs.files.add(buf, function (err, hash) {
         if(err) throw err;
-        if(callback) callback(hash);
+        if(callback) callback(hash[0].hash);
     })
 };
 

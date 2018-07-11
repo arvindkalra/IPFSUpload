@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<div action="/">
+<div>
     <fieldset>
         <legend>Upload photo</legend>
         <input type="file" name="photo" id="photo">
@@ -18,11 +18,16 @@
 <script src="app.js"></script>
 <script type="text/javascript">
     function upload() {
+        alert("Your File is Being Uploaded to IPFS, This may take a few minutes. You will get the Link On Page Once it is uploaded");
         const reader = new FileReader();
         reader.onloadend = function() {
+            console.log("Uploading");
             // const buf = buffer.Buffer(reader.result) // Convert data into buffer
             window.addFile(reader.result, function (hash) {
-                console.log(hash);
+                console.log("Uploaded", hash);
+                alert("File Uploaded");
+                document.getElementById('url').innerHTML = `https://ipfs.io/ipfs/${hash}`;
+                document.getElementById('url').href = `https://ipfs.io/ipfs/${hash}`;
             });
         };
         const photo = document.getElementById("photo");

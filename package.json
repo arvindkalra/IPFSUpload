@@ -1,0 +1,13 @@
+{
+  "name": "Fileupload",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "browserify app.js -o public/app.js"
+  },
+  "dependencies": {
+    "browserify": "^16.2.2",
+    "ipfs-api": "^22.2.3"
+  }
+}

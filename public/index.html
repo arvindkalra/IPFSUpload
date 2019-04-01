@@ -1,38 +1,71 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>JavaScript file upload</title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-</head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  </head>
 
-<body>
-<div>
-    <fieldset>
+  <body>
+    <div>
+      <div
+        action="http://localhost:5000/encrypt"
+        method="post"
+        enctype="multipart/form-data"
+      >
         <legend>Upload photo</legend>
-        <input type="file" name="photo" id="photo">
-        <button type="button" onclick="upload()">Upload</button>
-    </fieldset>
-</div>
-<a id="url"></a>
-<img id="output">
-<script src="app.js"></script>
-<script type="text/javascript">
-    function upload() {
-        alert("Your File is Being Uploaded to IPFS, This may take a few minutes. You will get the Link On Page Once it is uploaded");
+        <input type="file" name="photo" id="photo" />
+        <button type="submit" onclick="upload()">Upload</button>
+      </div>
+    </div>
+    <a id="url" href="http://localhost:5000/decrypted/">Download</a>
+    <img id="output" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="app.js"></script>
+    <script type="text/javascript">
+      function upload() {
+        alert(
+          "Your File is Being Uploaded to IPFS, This may take a few minutes. You will get the Link On Page Once it is uploaded"
+        );
         const reader = new FileReader();
         reader.onloadend = function() {
-            console.log("Uploading");
-            // const buf = buffer.Buffer(reader.result) // Convert data into buffer
-            window.addFile(reader.result, function (hash) {
-                console.log("Uploaded", hash);
-                alert("File Uploaded");
-                document.getElementById('url').innerHTML = `https://ipfs.io/ipfs/${hash}`;
-                document.getElementById('url').href = `https://ipfs.io/ipfs/${hash}`;
-            });
+          let formData = new FormData();
+          formData.append("photo", document.getElementById("photo").files[0]);
+          formData.append("username", "arvind");
+          formData.append("password", "TEST_ALICIA_INSECURE_DEVELOPMENT_PASSWORD");
+          formData.append("alice", "/home/arvind/Documents/ethDenver/umbral/alice/arvind/alice.config");
+          formData.append("label", "1stlabel");
+
+          console.log("Uploading");
+          // const buf = buffer.Buffer(reader.result) // Convert data into buffer
+          // console.log(reader.result);
+          //  let array = new Uint8Array(reader.result);
+          //  console.log(array)
+          $.ajax({
+            url: "http://localhost:5000/encryptData",
+            type: "POST",
+            enctype: "multipart/form-data",
+            processData: false, // Important
+            contentType: false,
+            cache: false,
+            data: formData
+          });
+
+          // $.post("http://localhost:5000/encrypt", { file: array });
+
+          // window.addFile(reader.result, function(hash) {
+          //   console.log("Uploaded", hash);
+          //   alert("File Uploaded");
+          //   document.getElementById(
+          //     "url"
+          //   ).innerHTML = `https://ipfs.io/ipfs/${hash}`;
+          //   document.getElementById(
+          //     "url"
+          //   ).href = `https://ipfs.io/ipfs/${hash}`;
+          // });
         };
         const photo = document.getElementById("photo");
         reader.readAsArrayBuffer(photo.files[0]); // Read Provided File
-    }
-</script>
-</body>
+      }
+    </script>
+  </body>
 </html>
